@@ -9,11 +9,11 @@ A POC to work express with typescript.
 
 ## Installation
 
-yarn or npm install
+> yarn or npm install
 
 ## Execution
 
-yarn start or npm start
+> yarn start or npm start
 
 ## Built With
 
