@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  express-ts:
+    container_name: express-ts-app
+    image: node
+    command: npm start
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    working_dir: /app
+    links:
+      - mongo-db
+
+  mongo-db:
+    container_name: express-ts-mongo-db
+    image: mongo
+    ports:
+      - 27018:27017
+    volumes:
+      - ./data/mongodb/db
+    restart: on-failure
