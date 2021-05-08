@@ -9,13 +9,14 @@ A POC to work express with typescript.
 
 ## Installation
 
-> yarn or npm install
+$ yarn or npm install
 
 ## Execution
 
-> yarn start or npm start
+$ yarn start or npm start
 
 ## Built With
 
 - [ExpressJS](https://expressjs.com) - A http framework for JavaScript.
 - [TypeScript](https://www.typescriptlang.org) - Superset of JavaScript.
+- [nodemon](https://nodemon.io)
