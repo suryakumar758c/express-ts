@@ -1,4 +1,4 @@
 {
   "ignore": ["build/*", "node_modules/*"],
-  "watch": ["index.ts", "server/*"]
+  "watch": ["index.ts", "server"]
 }

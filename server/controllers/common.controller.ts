@@ -47,11 +47,12 @@ class CommonController {
    */
   public setApiErrorResponse(
     response: Response,
-    data: any = null,
+    data: Error,
     message: string = "Error",
     code: number = 400
   ): void {
-    this.setResponse(response, data, message, code);
+    console.error(data);
+    this.setResponse(response, data.message, message, code);
   }
 }
 

@@ -1,7 +1,7 @@
 interface ApiResponseType {
   code: number;
   message: string;
-  data: any;
+  data: string | number | object | [] | null;
 }
 
 export type { ApiResponseType };

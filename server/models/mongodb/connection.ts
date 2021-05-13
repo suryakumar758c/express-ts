@@ -9,6 +9,7 @@ const connection: Connection & Promise<Connection> = mongoose.createConnection(
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   }
 );
 

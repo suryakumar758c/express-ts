@@ -16,6 +16,8 @@ const { APP_PORT } = process.env;
 
 const app: Express = express();
 
+app.use(express.json());
+
 app.use("/api", ApiRouter);
 
 const server: Server = http.createServer(app);
