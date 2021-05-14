@@ -1,10 +1,12 @@
+import joi from "joi";
+
 import type { Request, Response } from "express";
 
 import { ProductsModelOne } from "../models/mongodb/index.model";
 
 import CommonController from "./common.controller";
 
-import type { Document } from "mongoose";
+import type { Document, LeanDocument } from "mongoose";
 
 import type { ProductType } from "../types/product.types";
 
@@ -35,7 +37,8 @@ class HomeController extends CommonController {
    */
   public async getProducts(_: Request, response: Response): Promise<void> {
     try {
-      const products: Document<ProductType>[] = await ProductsModelOne.find({});
+      const products: LeanDocument<Document<ProductType>[]> =
+        await ProductsModelOne.getProducts();
       this.setApiSuccessResponse(response, products);
     } catch (error) {
       this.setApiErrorResponse(response, error);
@@ -49,21 +52,18 @@ class HomeController extends CommonController {
    */
   public async addProduct(request: Request, response: Response): Promise<void> {
     try {
-      const product: ProductType = request.body;
-      const productExists:
-        | Document<number | {}>
-        | number = await ProductsModelOne.findOne({
-        name: product.name,
-      }).countDocuments();
+      const productSchema: joi.ObjectSchema<ProductType> = joi
+        .object({
+          name: joi.string().required(),
+          count: joi.number().required(),
+        })
+        .required();
 
-      if (productExists) throw new Error("Product already exists!");
-
-      const {
-        _id,
-      }: Document<any | { _id: string }> = await ProductsModelOne.create(
-        product
+      const product: ProductType = await productSchema.validateAsync(
+        request.body
       );
-      product._id = _id;
+
+      product._id = await ProductsModelOne.addProduct(product);
       this.setApiSuccessResponse(response, product);
     } catch (error) {
       this.setApiErrorResponse(response, error);
@@ -81,20 +81,25 @@ class HomeController extends CommonController {
   ): Promise<void> {
     try {
       const { _id, count, name }: ProductType = request.body;
-      await ProductsModelOne.updateOne({ _id }, { count, name });
+      await ProductsModelOne.updateOne({ _id }, { count, name }).exec();
       this.setApiSuccessResponse(response, { _id, count, name });
     } catch (error) {
       this.setApiErrorResponse(response, error);
     }
   }
 
+  /**
+   * delete product
+   * @param request request
+   * @param response response
+   */
   public async deleteProduct(
     request: Request,
     response: Response
   ): Promise<void> {
     try {
       const { _id }: ProductType = request.body;
-      await ProductsModelOne.deleteOne({ _id });
+      await ProductsModelOne.deleteOne({ _id }).exec();
       this.setApiSuccessResponse(response, { _id });
     } catch (error) {
       this.setApiErrorResponse(response, error);
