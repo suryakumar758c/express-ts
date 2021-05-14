@@ -6,4 +6,11 @@ interface ProductType {
   _id?: ObjectId | string;
 }
 
-export type { ProductType };
+interface ProductTypeTwo {
+  name: string;
+  count: number;
+  id: number;
+  _id?: string;
+}
+
+export type { ProductType, ProductTypeTwo };

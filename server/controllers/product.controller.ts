@@ -10,8 +10,7 @@ import type { Document, LeanDocument } from "mongoose";
 
 import type { ProductType } from "../types/product.types";
 
-class HomeController extends CommonController {
-  test = 1;
+class ProductController extends CommonController {
   constructor() {
     super();
     this.index = this.index.bind(this);
@@ -80,9 +79,9 @@ class HomeController extends CommonController {
     response: Response
   ): Promise<void> {
     try {
-      const { _id, count, name }: ProductType = request.body;
-      await ProductsModelOne.updateOne({ _id }, { count, name }).exec();
-      this.setApiSuccessResponse(response, { _id, count, name });
+      const product: ProductType = request.body;
+      await ProductsModelOne.updateProduct(product);
+      this.setApiSuccessResponse(response, product);
     } catch (error) {
       this.setApiErrorResponse(response, error);
     }
@@ -99,7 +98,7 @@ class HomeController extends CommonController {
   ): Promise<void> {
     try {
       const { _id }: ProductType = request.body;
-      await ProductsModelOne.deleteOne({ _id }).exec();
+      await ProductsModelOne.deleteProduct(_id);
       this.setApiSuccessResponse(response, { _id });
     } catch (error) {
       this.setApiErrorResponse(response, error);
@@ -107,4 +106,4 @@ class HomeController extends CommonController {
   }
 }
 
-export default HomeController;
+export default ProductController;
