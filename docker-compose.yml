@@ -4,20 +4,31 @@ services:
   express-ts:
     container_name: express-ts-app
     image: node
-    command: npm start
+    command: node_modules/.bin/nodemon -L
+    hostname: express-ts-app
     ports:
       - 3000:3000
     volumes:
       - .:/app
     working_dir: /app
-    links:
-      - mongo-db
+    restart: on-failure
 
   mongo-db:
     container_name: express-ts-mongo-db
     image: mongo
+    hostname: mongo
     ports:
       - 27018:27017
     volumes:
       - ./data/mongodb/db
+    restart: on-failure
+
+  mysql-db:
+    container_name: express-ts-mysql-db
+    image: mysql
+    env_file:
+      - .env
+    hostname: mysql
+    ports:
+      - 3308:3306
     restart: on-failure

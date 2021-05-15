@@ -7,7 +7,7 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "node node_modules/typescript/bin/tsc",
     "prestart": "npm run build",
-    "start-dev": "nodemon --exec npm start",
+    "start-dev": "nodemon",
     "start": "node build/index.js"
   },
   "repository": {
